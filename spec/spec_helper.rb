@@ -25,48 +25,21 @@ Gem::Specification.load(File.expand_path("#{BUILDR_DIR}/buildr.gemspec", File.di
 end
 
 # hook into buildr's spec_helpers load process
-unless defined?(SpecHelpers)
-  module SandboxHook
-    def SandboxHook.included(spec_helpers)
-      $LOAD_PATH.unshift(File.dirname(__FILE__))
-      $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-      require 'buildr_ipojo'
-    end
-  end
-
-  require "#{BUILDR_DIR}/spec/spec_helpers.rb"
-
+module SandboxHook
+  def SandboxHook.included(spec_helpers)
+    $LOAD_PATH.unshift(File.dirname(__FILE__))
+    $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+    require 'buildr_ipojo'
     # Download deps into real local dir
-  Buildr::repositories.remote << Buildr::Ipojo.remote_repository
-  Buildr::Ipojo.requires.each { |spec| artifact(spec).invoke }
-
-  # Adjust specs so that they do not attempt to constantly download helper artifacts
-  module BuildrIpojoSpecHelpers
-
-    HELPERS_REPOSITORY = "file://#{Buildr::repositories.local}"
-    LOCAL_TEST_REPOSITORY = File.expand_path File.join(File.dirname(__FILE__), "..", "tmp", "test_m2_repository")
-
-    class << self
-
-      def included(config)
-        config.before(:each) do
-          repositories.remote << "file://#{HELPERS_REPOSITORY}"
-        end
-        config.after(:all) do
-          FileUtils.rm_rf LOCAL_TEST_REPOSITORY
-        end
-      end
+    Buildr.application.instance_eval { @rakefile = File.expand_path('buildfile') }
+    Buildr::repositories.remote << Buildr::Ipojo.remote_repository
+    Buildr::Ipojo.requires.each do |spec|
+      a = Buildr.artifact(spec)
+      a.invoke
+      Java.classpath << a.to_s
     end
-
-    def createRepository(name)
-      repo = File.join(LOCAL_TEST_REPOSITORY, name)
-      mkpath repo
-      return repo
-    end
+    Buildr::repositories.remote = ["file://#{Buildr::repositories.local}"]
   end
-
-  Spec::Runner.configure do |config|
-    config.include BuildrIpojoSpecHelpers
-  end
-
 end
+
+require "#{BUILDR_DIR}/spec/spec_helpers.rb"
