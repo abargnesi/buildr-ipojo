@@ -4,7 +4,7 @@ require 'rake/gempackagetask'
 require 'spec/rake/spectask'
 require File.expand_path("../lib/buildr/ipojo/version", __FILE__)
 
-gem_spec = Gem::Specification.load(File.expand_path('buildr-ipojo.gemspec.gemspec', File.dirname(__FILE__)))
+gem_spec = Gem::Specification.load(File.expand_path('buildr-ipojo.gemspec', File.dirname(__FILE__)))
 
 Spec::Rake::SpecTask.new(:spec) do |spec|
   spec.libs << 'lib' << 'spec'
