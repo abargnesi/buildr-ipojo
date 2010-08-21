@@ -36,7 +36,6 @@ module SandboxHook
     Buildr::Ipojo.requires.each do |spec|
       a = Buildr.artifact(spec)
       a.invoke
-      Java.classpath << a.to_s
     end
     Buildr::repositories.remote = ["file://#{Buildr::repositories.local}"]
   end
