@@ -3,10 +3,16 @@ module Buildr
     module ProjectExtension
       include Extension
 
-      attr_accessor :ipojo_metadata
-
       def ipojo?
-        !@ipojo_metadata.nil?
+        !@ipojo.nil?
+      end
+
+      def ipojo
+        @ipojo ||= Buildr::Ipojo::Config.new(self)
+      end
+
+      def ipojoize!
+        self.ipojo
       end
 
       after_define do |project|
@@ -22,7 +28,15 @@ module Buildr
               pkg.enhance do
                 begin
                   tmp_filename = pkg.to_s + ".out"
-                  Buildr::Ipojo.pojoize(project, pkg.to_s, tmp_filename, project.ipojo_metadata)
+                  metadata_file = project.ipojo.metadata_file
+                  if metadata_file.nil?
+                    metadata_file = project._(:target, :generated, :config, "ipojo.xml")
+                    mkdir_p File.dirname(metadata_file)
+                    File.open(metadata_file, "w") do |f|
+                      f << "<ipojo></ipojo>"
+                    end
+                  end
+                  Buildr::Ipojo.pojoize(project, pkg.to_s, tmp_filename, metadata_file)
                   FileUtils.mv tmp_filename, pkg.to_s
                 rescue => e
                   FileUtils.rm_rf pkg.to_s
