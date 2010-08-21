@@ -1,4 +1,5 @@
 require 'buildr'
-require File.expand_path(File.dirname(__FILE__) + '/buildr/ipojo/version')
-require File.expand_path(File.dirname(__FILE__) + '/buildr/ipojo/core')
-require File.expand_path(File.dirname(__FILE__) + '/buildr/ipojo/project_extension')
+require 'buildr/ipojo/version'
+require 'buildr/ipojo/config'
+require 'buildr/ipojo/core'
+require 'buildr/ipojo/project_extension'
