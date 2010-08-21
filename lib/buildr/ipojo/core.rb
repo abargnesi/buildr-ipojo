@@ -39,12 +39,12 @@ module Buildr
         pojoizer.getWarnings().each do |warning|
           trace("Pojizer Warning: #{warning}")
         end
-        error = false
+        error_flag = false
         pojoizer.getErrors().each do |warning|
           error("Pojizer Error: #{warning}")
-          error = true
+          error_flag = true
         end
-        raise "Errors processing #{input_filename} with pojoize" if error
+        raise "Errors processing #{input_filename} with pojoize" if error_flag
       end
     end
   end
