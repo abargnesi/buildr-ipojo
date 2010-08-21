@@ -17,12 +17,6 @@ module Buildr
 
       after_define do |project|
         if project.ipojo?
-          # Add artifacts to java classpath
-          Buildr::Ipojo.requires.each do |spec|
-            a = Buildr.artifact(spec)
-            a.invoke
-            Java.classpath << a.to_s
-          end
           project.packages.each do |pkg|
             if pkg.respond_to?(:to_hash) && pkg.to_hash[:type] == :jar
               pkg.enhance do
