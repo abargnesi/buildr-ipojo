@@ -1,0 +1,25 @@
+= iPojo support for buildr
+
+iPojo is an OSGi component model (http://felix.apache.org/site/apache-felix-ipojo.html).
+This extension processes OSGi bundles using iPojo's pojoizer to generate the required
+metadata for the iPojo component model.
+
+TODO: Describe configuration
+
+== Installation
+
+The extension is packaged as a gem named "buildr-ipojo", consult the ruby gems installation
+steps but typically it is either
+
+  sudo gem install buildr-ipojo
+
+for MRI ruby or
+
+  jgem install buildr-ipojo
+
+for jruby.
+
+The user then needs to add the following require into the build file:
+
+  require 'buildr_ipojo'
+
