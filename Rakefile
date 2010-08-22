@@ -13,6 +13,8 @@ end
 
 task :default => :spec
 
+task :package => [:spec]
+
 desc "Generate RDoc documentation in rdoc/"
 Rake::RDocTask.new :rdoc do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
