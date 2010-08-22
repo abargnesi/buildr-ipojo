@@ -34,8 +34,8 @@ extension available at http://github.com/realityforge/buildr-bnd
 An example of a project that makes use of both buildr-ipojo and buildr-bnd extensions
 to build an OSGi bundle is;
 
-  gem 'buildr-bnd', :version => '0.0.5'
-  gem 'buildr-ipojo', :version => '0.0.1'
+  gem 'buildr-bnd'
+  gem 'buildr-ipojo'
 
   require 'buildr_bnd'
   require 'buildr_ipojo'
