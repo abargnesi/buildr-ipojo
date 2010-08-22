@@ -31,6 +31,31 @@ An example of a project that specifies the metadata file location.
 Note: Often projects that are building OSGi bundles will make use of the buildr-bnd
 extension available at http://github.com/realityforge/buildr-bnd
 
+An example of a project that makes use of both buildr-ipojo and buildr-bnd extensions
+to build an OSGi bundle is;
+
+  gem 'buildr-bnd', :version => '0.0.5'
+  gem 'buildr-ipojo', :version => '0.0.1'
+
+  require 'buildr_bnd'
+  require 'buildr_ipojo'
+
+  repositories.remote << Buildr::Bnd.remote_repository
+  repositories.remote << Buildr::Ipojo.remote_repository
+
+  desc 'My bundle project'
+  define 'myProject' do
+    project.version = '0.1.1-SNAPSHOT'
+    project.group = 'mygroup'
+
+    compile.with Buildr::Ipojo.annotation_artifact
+    project.ipojoize!
+
+    package(:bundle).tap do |bnd|
+      bnd['Export-Package'] = "mygroup.*;version=#{version}"
+    end
+  end
+
 == Installation
 
 The extension is packaged as a gem named "buildr-ipojo", consult the ruby gems installation
