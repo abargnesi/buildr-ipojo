@@ -31,20 +31,17 @@ module Buildr
 
       def pojoize(project, input_filename, output_filename, metadata_filename)
         trace("Enhancing #{input_filename} with ipojo metadata")
-        pojoizer = Java.org.apache.felix.ipojo.manipulator.Pojoization.new
-        pojoizer.setUseLocalXSD()
-        pojoizer.pojoization(Java.java.io.File.new(input_filename),
-                             Java.java.io.File.new(output_filename),
-                             Java.java.io.FileInputStream.new(metadata_filename))
-        pojoizer.getWarnings().each do |warning|
-          trace("Pojizer Warning: #{warning}")
-        end
-        error_flag = false
-        pojoizer.getErrors().each do |warning|
-          error("Pojizer Error: #{warning}")
-          error_flag = true
-        end
-        raise "Errors processing #{input_filename} with pojoize" if error_flag
+        cp = Buildr.artifacts(self.requires).each(&:invoke).map(&:to_s)
+        cp += [File.expand_path(File.dirname(__FILE__) + '/ipojo_cli.jar')]
+        args =
+          [
+            input_filename,
+            output_filename,
+            metadata_filename,
+            Buildr.application.options.trace ? "true" : "false",
+            {:classpath => cp}
+          ]
+        Java::Commands.java 'buildr.ipojo.cli.Main', *(args)
       end
     end
   end
