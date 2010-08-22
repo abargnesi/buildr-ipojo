@@ -27,6 +27,7 @@ end
 Rake::GemPackageTask.new(gem_spec).define
 
 namespace :deploy do
+  desc "Tag current version of library"
   task :tag do
     system("git tag -a #{Buildr::Ipojo::Version::STRING} -m 'Released #{Buildr::Ipojo::Version::STRING}'")
     puts "Tagged locally.  `git push --tags` if you're sure."
