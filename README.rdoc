@@ -4,7 +4,29 @@ iPojo is an OSGi component model (http://felix.apache.org/site/apache-felix-ipoj
 This extension processes OSGi bundles using iPojo's pojoizer to generate the required
 metadata for the iPojo component model.
 
-TODO: Describe configuration
+The extension will process all packages of type :jar and generate the required metadata
+from annotations and an ipojo metadata file if present. The default location of the
+metadata file is "src/main/config/ipojo.xml" but this can be changed by assigning the
+"ipojo.metadata_filename" setting.
+
+A typical project that uses the extension with the default metadata file location.
+
+  define 'myProject' do
+    ...
+    project.ipojoize!
+    package :jar
+    ...
+  end
+
+An example of a project that specifies the metadata file location.
+
+  define 'myProject' do
+    ...
+    # Note: no longer require project.pojoize!
+    project.ipojo.metadata_filename = _("src/ipojo.xml")
+    package :jar
+    ...
+  end
 
 == Installation
 
@@ -23,3 +45,7 @@ The user then needs to add the following require into the build file:
 
   require 'buildr_ipojo'
 
+If the local maven repository does not contain the required ipojo jars they can be downloaded
+but you will need to register the remote repository by adding the following to the build file:
+
+repositories.remote << Buildr::Ipojo.remote_repository
