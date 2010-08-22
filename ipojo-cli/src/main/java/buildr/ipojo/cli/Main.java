@@ -34,8 +34,8 @@ public class Main
         }
       }
 
-      inError = pojoizer.getWarnings().size() != 0;
-      for( final Object message : pojoizer.getWarnings() )
+      inError = pojoizer.getErrors().size() != 0;
+      for( final Object message : pojoizer.getErrors() )
       {
         System.err.println( "Pojoizer Error: " + message );
       }
