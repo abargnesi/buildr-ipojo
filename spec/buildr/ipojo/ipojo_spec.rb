@@ -84,7 +84,7 @@ SRC
       @foo = define "foo" do
         init_project(project)
         project.ipojoize!
-        project.ipojo.metadata_file = project._("src/main/config/non-default-ipojo.xml")
+        project.ipojo.metadata_filename = project._("src/main/config/non-default-ipojo.xml")
         package :jar
       end
       task('package').invoke

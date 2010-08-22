@@ -23,16 +23,16 @@ module Buildr
                 pkg.enhance do
                   begin
                     tmp_filename = pkg.to_s + ".out"
-                    metadata_file = project.ipojo.metadata_file
-                    if metadata_file.nil?
-                      metadata_file = project._(:target, :generated, :config, "ipojo.xml")
-                      mkdir_p File.dirname(metadata_file)
-                      File.open(metadata_file, "w") do |f|
+                    metadata_filename = project.ipojo.metadata_filename
+                    if metadata_filename.nil?
+                      metadata_filename = project._(:target, :generated, :config, "ipojo.xml")
+                      mkdir_p File.dirname(metadata_filename)
+                      File.open(metadata_filename, "w") do |f|
                         f << "<ipojo></ipojo>"
                       end
                     end
                     info("Processing #{File.basename(pkg.to_s)} through iPojo pre-processor")
-                    Buildr::Ipojo.pojoize(project, pkg.to_s, tmp_filename, metadata_file)
+                    Buildr::Ipojo.pojoize(project, pkg.to_s, tmp_filename, metadata_filename)
                     FileUtils.mv tmp_filename, pkg.to_s
                   rescue => e
                     FileUtils.rm_rf pkg.to_s

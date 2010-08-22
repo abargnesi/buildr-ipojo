@@ -1,7 +1,7 @@
 module Buildr
   module Ipojo
     class Config
-      attr_writer :metadata_file
+      attr_writer :metadata_filename
 
       attr_reader :project
 
@@ -9,8 +9,8 @@ module Buildr
         @project= project
       end
 
-      def metadata_file
-        return @metadata_file unless @metadata_file.nil?
+      def metadata_filename
+        return @metadata_filename unless @metadata_filename.nil?
         filename = project._(:src, :main, :config, "ipojo.xml")
         File.exist?(filename) ? filename : nil
       end
