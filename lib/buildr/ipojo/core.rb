@@ -3,7 +3,7 @@ module Buildr
     class << self
 
       def ipojo_version
-        @ipojo_version ||= '1.6.2'
+        @ipojo_version ||= '1.6.4'
       end
 
       def ipojo_version=(ipojo_version)
