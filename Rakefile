@@ -2,7 +2,6 @@ require 'rake'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'spec/rake/spectask'
-require File.expand_path("lib/buildr/ipojo/version", File.dirname(__FILE__))
 
 begin
   require 'rubygems'
