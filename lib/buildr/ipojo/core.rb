@@ -3,16 +3,16 @@ module Buildr
     class << self
 
       def annotation_artifact
-        "org.apache.felix:org.apache.felix.ipojo.annotations:jar:1.8.2"
+        "org.apache.felix:org.apache.felix.ipojo.annotations:jar:1.9.0-SNAPSHOT"
       end
 
       # The specs for requirements
       def requires
         [
           self.annotation_artifact,
-          "org.apache.felix:org.apache.felix.ipojo.metadata:jar:1.4.0",
-          "org.apache.felix:org.apache.felix.ipojo.manipulator:jar:1.8.4",
-          "org.apache.felix:org.apache.felix.ipojo.ant:jar:1.8.4",
+          "org.apache.felix:org.apache.felix.ipojo.metadata:jar:1.6.1-SNAPSHOT",
+          "org.apache.felix:org.apache.felix.ipojo.manipulator:jar:1.9.0-SNAPSHOT",
+          "org.apache.felix:org.apache.felix.ipojo.ant:jar:1.9.0-SNAPSHOT",
           'asm:asm-all:jar:3.3.1'
         ]
       end
